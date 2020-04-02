@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>เพิ่มข้อมูลห้องเช่า</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <button  ion-button full padding round color="secondary" block (click)="openGallery()">เลือกรูปจากอัลบั้ม</button>
+  <img [src]="base64Image"/>
+
+    <ion-item>
+      <ion-label floating>ชื่อห้องเช่า</ion-label>
+      <ion-input type="text" required [(ngModel)]="name" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>ราคา THB</ion-label>
+      <ion-input type="text" required [(ngModel)]="price"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>ประเภทห้องเช่า</ion-label>
+      <ion-select [(ngModel)]="category"  >
+        <ion-option *ngFor="let get of type" value={{get.category_id}}>{{get.category_name}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>จำกัดเพศ</ion-label>
+      <ion-select [(ngModel)]="sex">
+        <ion-option value="หอหญิง" >หอหญิง</ion-option>
+        <ion-option value="หอชาย" >หอชาย</ion-option>
+        <ion-option value="หอรวม" >หอรวม</ion-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label floating>เบอร์ติดต่อ</ion-label>
+      <ion-input type="text" name="Number" pattern="[0-9]{1,}" title="กรอกตัวเลขเท่านั้น" required [(ngModel)]="phone" ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>ที่อยู่</ion-label>
+      <ion-textarea [(ngModel)]="location" ></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>รายวัน/รายเดือน</ion-label>
+      <ion-select [(ngModel)]="day">
+        <ion-option value="รายวัน" >รายวัน</ion-option>
+        <ion-option value="รายเดือน" >รายเดือน</ion-option>
+      </ion-select>
+    </ion-item>
+   <br><br>
+    <ion-item >
+      <h2><b>ระบบจะบันทึกตำแหน่งอัตโนมัติ</b></h2>
+    </ion-item>
+    <ion-item >
+      <br>
+      <h2> ละติจูด : {{myLatitude}} </h2>
+      <h2> ลองติจูด : {{myLongitude}} </h2>
+      <button ion-button (click)="getCurrentLocation()"><ion-icon name="locate" color="secondary"></ion-icon></button>
+    </ion-item>
+    <button ion-button padding round color="secondary" block (click)="ok(name,price,category,sex,phone,location,day)" >ยืนยัน</button>
+  </ion-content>
+

@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>เปรียบเทียบราคาห้องเช่า</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+  <ion-label>เลือกห้องเช่า</ion-label>
+  <ion-select [(ngModel)]="result.room1">
+      <ion-option *ngFor="let get of value" value={{get.rentalroom_name}}>{{get.rentalroom_name}}</ion-option>
+  </ion-select>
+</ion-item>
+
+<ion-note>กับ</ion-note>
+<ion-item>
+
+    <ion-label>เลือกห้องเช่า</ion-label>
+    <ion-select [(ngModel)]="result.room2">
+      <ion-option *ngFor ="let get of value" value={{get.rentalroom_name}}>{{get.rentalroom_name}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <button ion-button (click)="getRoomview(get)">เปรียบเทียบ</button>
+
+  <ion-card>
+  <ion-card-content *ngFor="let show of showroom1">
+      <p><b>ชื่อห้องเช่า :</b>{{show.rentalroom_name}}</p>
+      <p><b>ที่อยู่ :</b>{{show.rentalroom_name_location}}</p>
+      <p><b>ราคา :</b>{{show.rentalroom_price}} THB</p>
+      <p><b>จำกัดเพศของผู้เช่า :</b>{{show.rentalroom_limitedroom_sex}}</p>
+      <p><b>เป็นห้องเช่าแบบ :</b>{{show.rentalroom_facilities}}</p>
+      <p><b>เบอร์ติดต่อ :</b>{{show.rentalroom_phone}}</p>
+      <p><b>คะแนนห้องเช่านี้ : </b>{{show.rentalroom_star}} คะแนนน</p>
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+  <ion-card-content *ngFor="let show of showroom2">
+      <p><b>ชื่อห้องเช่า :</b>{{show.rentalroom_name}}</p>
+      <p><b>ที่อยู่ :</b>{{show.rentalroom_name_location}}</p>
+      <p><b>ราคา :</b>{{show.rentalroom_price}} THB</p>
+      <p><b>จำกัดเพศของผู้เช่า :</b>{{show.rentalroom_limitedroom_sex}}</p>
+      <p><b>เป็นห้องเช่าแบบ :</b>{{show.rentalroom_facilities}}</p>
+      <p><b>เบอร์ติดต่อ :</b>{{show.rentalroom_phone}}</p>
+      <p><b>คะแนนห้องเช่านี้ : </b>{{show.rentalroom_star}} คะแนนน</p>
+  </ion-card-content>
+</ion-card>
+<ion-item *ngFor="let com of comement">
+  <br>
+  <h2>ความคิดเห็น :    {{com.comment_content}} </h2>
+  <h3>วันที่ : {{com.comment_date}}</h3>
+</ion-item>
+
+
+</ion-content>
