@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import * as Enums from '../../enums/enums'; 
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Geolocation } from '@ionic-native/geolocation';
-//import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 
 @IonicPage()
 @Component({
@@ -12,7 +13,7 @@ import { Geolocation } from '@ionic-native/geolocation';
   templateUrl: 'room-add.html',
 })
 export class RoomAddPage {
-  base64Image : string;
+  base64Image : string="";
   room = {
     rentalroom_name: '', rentalroom_price: '', category_id: '', rentalroom_limitedroom_sex: '',
     rentalroom_phone: '', rentalroom_name_location: '', rentalroom_facilities: ''
@@ -29,7 +30,7 @@ export class RoomAddPage {
   myLatitude = 0;
   myLongitude = 0;
   constructor(public http: HttpClient,public navCtrl: NavController, public navParams: NavParams, private camera: Camera, public geolocation: Geolocation
-    , private loadingCtrl:LoadingController) {
+    , private loadingCtrl:LoadingController, private transfer: FileTransfer, private file: File) {
     this.category();
     this.rentalroom();
   }
@@ -89,6 +90,39 @@ export class RoomAddPage {
 
   ok (name,price,category,sex,phone,location,day) {
     if (name != null && price != null && category != null&& sex != null&& phone != null&& location != null&& day != null) {
+
+
+    //create file transfer object
+    const fileTransfer: FileTransferObject = this.transfer.create();
+
+    //random int
+    var random = Math.floor(Math.random() * 100);
+
+    //option transfer
+    let options: FileUploadOptions = {
+      fileKey: 'photo',
+      fileName: Enums.APIURL.URL +"/todoslim3/public/images/myImage_" + random + ".jpg",
+      chunkedMode: false,
+      httpMethod: 'post',
+      mimeType: "image/jpeg",
+      headers: {}
+    }
+
+    //file transfer action
+    // fileTransfer.upload(this.myphoto, 'http://192.168.1.30/api/upload/uploadFoto.php', options)
+    fileTransfer.upload(this.base64Image, Enums.APIURL.URL+'/todoslim3/public/uploadPhotoForIonic3.php', options)
+      .then((data) => {
+        //alert("Success");
+        //loader.dismiss();
+      }, (err) => {
+        console.log(err);
+        alert("Error");
+        //loader.dismiss();
+      });
+
+
+
+
      let josnData;
      josnData = {
        rentalroom_name : name ,
@@ -100,7 +134,7 @@ export class RoomAddPage {
        rentalroom_facilities:day,
        rentalroom_latitude :this.myLatitude,
        rentalroom_longitude :this.myLongitude,
-       //rentalroom_img : this.base64Image
+       rentalroom_img : options.fileName,
 
      };
      let url = Enums.APIURL.URL + '/todoslim3/public/addroom';
@@ -118,6 +152,7 @@ export class RoomAddPage {
          this.day = "";
          this.myLatitude = 0;
          this.myLongitude = 0;
+         this.base64Image = "";
        }
        ,
        (error) => { console.log(error) }
@@ -127,22 +162,12 @@ export class RoomAddPage {
       alert("โปรดกรอกให้ครบทุกช่อง");
     }
 
-  // save(){
-  //   let loader = this.loadingCtrl.create({
-  //     content: "Uploading..."
-  //   });
-
-  //   //file transfer action
-  //   let josnData = { base64Image:this.base64Image };
-  //   let url = Enums.APIURL.URL +'/api/upload/uploadFoto.php';
 
 
 
 
 
- //}
-
-}
+  }
 }
 
 

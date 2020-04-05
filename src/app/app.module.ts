@@ -16,6 +16,9 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { OverviweDetailPageModule } from '../pages/overviwe-detail/overviwe-detail.module';
 import { CatComparePage } from '../pages/cat-compare/cat-compare';
 import { Camera } from '@ionic-native/camera';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+
 
 @NgModule({
   declarations: [
@@ -41,7 +44,7 @@ import { Camera } from '@ionic-native/camera';
     SocialSharing,
     Geolocation,
     SplashScreen,
-    Camera,
+    Camera,FileTransfer,File,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
